@@ -16,24 +16,24 @@ namespace OOPBibliotek
 
             Console.WriteLine("v-- Pick --v");
             Console.WriteLine("");
-            Console.WriteLine("1 to add books");
-            Console.WriteLine("2 to add authors");
-            Console.WriteLine("3 for library");
+            Console.WriteLine("1 to books");
+            Console.WriteLine("2 to authors");
+            Console.WriteLine("3 to library");
 
-            string? Checks = Console.ReadLine();
+            int? Checks = int.Parse(Console.ReadLine());
 
             switch (Checks)
             {
-                case "1":
+                case 1:
                     Console.Clear();
-                    nyBog
+                    nyBog.PickBog();
                     break;
-                case "2":
+                case 2:
                     Console.Clear();
-                    nyFor
+                    //nyFor
                     break;
-                case "3":
-                    nyBib
+                case 3:
+                    //nyBib
                     break;
                 default:
                     Console.WriteLine("Fejl prøv igen");
