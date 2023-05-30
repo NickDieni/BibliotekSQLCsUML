@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Text.RegularExpressions;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 
 namespace OOPBibliotek
 {
+    public class Book
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+    }
     internal class Bog
     {
-        public class Book
-        {
-            public int Id { get; set; }
-            public string Title { get; set; }
-            public string Author { get; set; }
-        }
-
-        public void PickBog()
+        public void PickBook()
         {
             string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = Passw0rd; Database = Bibliotek;";
             SqlConnection con = new SqlConnection(cstring);
@@ -55,27 +47,25 @@ namespace OOPBibliotek
             string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
             SqlConnection con = new SqlConnection(cstring);
             con.Open();
-            string bookname, bookauthor;
+            Book book = new Book();
             
-
             Console.Write("Enter the name of the book: ");
-            bookname = Console.ReadLine();
-            bool LengthBool = bookname.Length >= 1;
-            if (LengthBool == false || bookname == null) Error();
+            book.Title = Console.ReadLine();
+            bool LengthBool = book.Title.Length >= 1;
+            if (LengthBool == false || book.Title == null) Error();
             Console.WriteLine();
 
             Console.Write("Enter the author of the book: ");
-            bookauthor = Console.ReadLine();
-            LengthBool = bookauthor.Length >= 1;
-            if (LengthBool == false || bookauthor == null) Error();
+            book.Author = Console.ReadLine();
+            LengthBool = book.Author.Length >= 1;
+            if (LengthBool == false || book.Author == null) Error();
             Console.WriteLine();
 
 
-            bool authorExists = CheckAuthorExists(cstring, bookauthor);
+            bool authorExists = CheckAuthorExists(cstring, book.Author);
             if (authorExists)
             {
-                /*SqlCommand cmd = new SqlCommand*/
-                string sqlQuery = $"INSERT INTO Books (Bookname, Authorname) VALUES ('{bookname}', '{bookauthor}')";
+                string sqlQuery = $"INSERT INTO Books (Bookname, Authorname) VALUES ('{book.Title}', '{book.Author}')";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, con))
                 {
@@ -85,12 +75,15 @@ namespace OOPBibliotek
                 Thread.Sleep(2000);
                 Console.Clear();
                 con.Close();
-                PickBog();
+                PickBook();
             }
             else
             {
                 Console.WriteLine("Author does not exist. Cannot insert book.");
-
+                Thread.Sleep(2000);
+                Console.Clear();
+                con.Close();
+                PickBook();
             }
 
 
@@ -151,6 +144,7 @@ namespace OOPBibliotek
             Console.Write("Write the book you want to delete: ");
             string Deletename = Console.ReadLine();
             SqlConnection con2 = new SqlConnection(cstring);
+
             con2.Open();
             SqlCommand cmd = new SqlCommand($"DELETE FROM Books WHERE Bookname='{Deletename}'", con2);
             cmd.ExecuteNonQuery();
@@ -159,7 +153,7 @@ namespace OOPBibliotek
             Thread.Sleep(2000);
             Console.Clear();
             con2.Close();
-            PickBog();
+            PickBook();
         }
 
         public void Error()
@@ -170,7 +164,7 @@ namespace OOPBibliotek
             con.Close();
             Console.WriteLine("Error try again");
             Thread.Sleep(2000);
-            PickBog();
+            PickBook();
         }
     }
 }

@@ -26,11 +26,11 @@ namespace OOPBibliotek
             {
                 case 1:
                     Console.Clear();
-                    nyBog.PickBog();
+                    nyBog.PickBook();
                     break;
                 case 2:
                     Console.Clear();
-                    //nyFor
+                    nyFor.Authorpick();
                     break;
                 case 3:
                     //nyBib
