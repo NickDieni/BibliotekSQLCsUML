@@ -8,6 +8,7 @@ namespace OOPBibliotek
         public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
+        public string Borrow { get; set; }
     }
     internal class Bog
     {
@@ -48,7 +49,7 @@ namespace OOPBibliotek
             SqlConnection con = new SqlConnection(cstring);
             con.Open();
             Book book = new Book();
-            
+
             Console.Write("Enter the name of the book: ");
             book.Title = Console.ReadLine();
             bool LengthBool = book.Title.Length >= 1;
@@ -60,7 +61,6 @@ namespace OOPBibliotek
             LengthBool = book.Author.Length >= 1;
             if (LengthBool == false || book.Author == null) Error();
             Console.WriteLine();
-
 
             bool authorExists = CheckAuthorExists(cstring, book.Author);
             if (authorExists)
@@ -85,10 +85,8 @@ namespace OOPBibliotek
                 con.Close();
                 PickBook();
             }
-
-
         }
-        private static bool CheckAuthorExists(string cstring, string bookauthor)
+        public static bool CheckAuthorExists(string cstring, string bookauthor)
         {
             using (SqlConnection connection = new SqlConnection(cstring))
             {
@@ -155,7 +153,6 @@ namespace OOPBibliotek
             con2.Close();
             PickBook();
         }
-
         public void Error()
         {
             string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";

@@ -33,7 +33,8 @@ namespace OOPBibliotek
                     nyFor.Authorpick();
                     break;
                 case 3:
-                    //nyBib
+                    Console.Clear();
+                    nyBib.PickLib();
                     break;
                 default:
                     Console.WriteLine("Fejl prøv igen");

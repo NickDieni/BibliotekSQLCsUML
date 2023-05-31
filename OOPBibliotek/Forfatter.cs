@@ -115,8 +115,6 @@ namespace OOPBibliotek
             con2.Close();
             Authorpick();
         }
-
-
         public void Error()
         {
             string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
