@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 
 namespace OOPBibliotek
@@ -48,10 +43,15 @@ namespace OOPBibliotek
             con.Open();
             Book book = new Book();
 
-            Console.Write("Enter the name of the author: ");
+            Console.Write("Enter the name of the author or write B to go back: ");
             book.Author = Console.ReadLine();
             bool LengthBool = book.Author.Length >= 1;
             if (LengthBool == false || book.Author == null) Error();
+            if (book.Author == "B" || book.Author == "b")
+            {
+                Console.Clear();
+                Authorpick();
+            }
             Console.WriteLine();
 
             string sqlQuery = $"INSERT INTO Authors (Authornames) VALUES ('{book.Author}')";
@@ -101,10 +101,14 @@ namespace OOPBibliotek
             }
 
             Console.WriteLine();
-            Console.Write("Write the name of a author you want to delete: ");
+            Console.Write("Write the name of a author you want to delete or write B to go back: ");
             string Deletename = Console.ReadLine();
             SqlConnection con2 = new SqlConnection(cstring);
-
+            if (Deletename == "B" || Deletename == "b")
+            {
+                Console.Clear();
+                Authorpick();
+            }
             con2.Open();
             SqlCommand cmd = new SqlCommand($"DELETE FROM Authors WHERE Authornames='{Deletename}'", con2);
             cmd.ExecuteNonQuery();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace OOPBibliotek
 {
@@ -29,7 +24,6 @@ namespace OOPBibliotek
                 case 2:
                     Console.Clear();
                     ReturnBook();
-                    //Borrow = reader["Borrowed"].ToString(),
                     break;
                 case 3:
                     Console.Clear();
@@ -78,9 +72,15 @@ namespace OOPBibliotek
                 Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Borrowed: {book.Borrow}");
             }
 
-            Console.Write("Pick what book you want to borrow: ");
+            Console.WriteLine();
+            Console.Write("Pick what book you want to borrow or write B to go back: ");
             Book book1 = new Book();
             book1.Title = Console.ReadLine();
+            if (book1.Title == "B" || book1.Title == "b")
+            {
+                Console.Clear();
+                PickLib();
+            }
             SqlConnection con2 = new SqlConnection(cstring);
             con2.Open();
             string sqlQuery = $"UPDATE Books SET Borrowed = 'Yes' WHERE Bookname = '{book1.Title}'";
@@ -134,9 +134,17 @@ namespace OOPBibliotek
                 Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Borrowed: {book.Borrow}");
             }
 
-            Console.Write("Pick what book you want to return: ");
+            Console.WriteLine();
+            Console.Write("Pick what book you want to return or write B to go back: ");
             Book book1 = new Book();
             book1.Title = Console.ReadLine().ToLower();
+
+            if (book1.Title == "B" || book1.Title == "b")
+            {
+                Console.Clear();
+                PickLib();
+            }
+
             SqlConnection con2 = new SqlConnection(cstring);
             con2.Open();
             string sqlQuery = $"UPDATE Books SET Borrowed = 'No' WHERE Bookname = '{book1.Title}'";

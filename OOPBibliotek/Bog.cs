@@ -47,13 +47,19 @@ namespace OOPBibliotek
         {
             string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
             SqlConnection con = new SqlConnection(cstring);
-            con.Open();
+
             Book book = new Book();
 
-            Console.Write("Enter the name of the book: ");
+            Console.Write("Enter the name of the book or write B to go back: ");
             book.Title = Console.ReadLine();
             bool LengthBool = book.Title.Length >= 1;
             if (LengthBool == false || book.Title == null) Error();
+            if (book.Title == "B" || book.Title == "b")
+            {
+                Console.Clear();
+                PickBook();
+            }
+
             Console.WriteLine();
 
             Console.Write("Enter the author of the book: ");
@@ -62,6 +68,7 @@ namespace OOPBibliotek
             if (LengthBool == false || book.Author == null) Error();
             Console.WriteLine();
 
+            con.Open();
             bool authorExists = CheckAuthorExists(cstring, book.Author);
             if (authorExists)
             {
@@ -139,9 +146,14 @@ namespace OOPBibliotek
             }
 
             Console.WriteLine();
-            Console.Write("Write the book you want to delete: ");
+            Console.Write("Write the book you want to delete or write B to go back: ");
             string Deletename = Console.ReadLine();
             SqlConnection con2 = new SqlConnection(cstring);
+            if (Deletename == "B" || Deletename == "b")
+            {
+                Console.Clear();
+                PickBook();
+            }
 
             con2.Open();
             SqlCommand cmd = new SqlCommand($"DELETE FROM Books WHERE Bookname='{Deletename}'", con2);
