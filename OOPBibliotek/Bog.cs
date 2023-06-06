@@ -6,17 +6,16 @@ namespace OOPBibliotek
     public class Book
     {
         public int Id { get; set; }
+        public int AuthorId { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public string Borrow { get; set; }
+        public string Borrowname { get; set; }
     }
     internal class Bog
     {
         public void PickBook()
         {
-            DataCheck nyCheck = new DataCheck();
-            nyCheck.Check();
-
             Console.WriteLine("v-- Pick --v");
             Console.WriteLine("");
             Console.WriteLine("1 to add book");
@@ -72,7 +71,7 @@ namespace OOPBibliotek
             bool authorExists = CheckAuthorExists(cstring, book.Author);
             if (authorExists)
             {
-                string sqlQuery = $"INSERT INTO Books (Bookname, Authorname) VALUES ('{book.Title}', '{book.Author}')";
+                string sqlQuery = $"INSERT INTO Books (Bookname, AuthorID) SELECT '{book.Title}', ID FROM Authors WHERE Authorname = '{book.Author}'";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, con))
                 {
@@ -99,7 +98,7 @@ namespace OOPBibliotek
             {
                 connection.Open();
 
-                string sqlQuery = "SELECT COUNT (*) FROM Authors WHERE Authornames = @AuthorName";
+                string sqlQuery = "SELECT COUNT (*) FROM Authors WHERE Authorname = @AuthorName";
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@AuthorName", bookauthor);
@@ -129,9 +128,9 @@ namespace OOPBibliotek
                         {
                             Book book = new Book
                             {
-                                Id = Convert.ToInt32(reader["BooksID"]),
+                                Id = Convert.ToInt32(reader["ID"]),
                                 Title = reader["Bookname"].ToString(),
-                                Author = reader["Authorname"].ToString(),
+                                AuthorId = Convert.ToInt32(reader["AuthorID"]),
                             };
                             books.Add(book);
                         }
@@ -142,7 +141,7 @@ namespace OOPBibliotek
 
             foreach (Book book in books)
             {
-                Console.WriteLine($"Title: {book.Title}, Author: {book.Author}");
+                Console.WriteLine($"Book ID: {book.Id}, Title: {book.Title}, Author: {book.AuthorId}");
             }
 
             Console.WriteLine();

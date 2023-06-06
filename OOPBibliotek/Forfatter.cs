@@ -7,9 +7,6 @@ namespace OOPBibliotek
     {
         public void Authorpick()
         {
-            DataCheck nyCheck = new DataCheck();
-            nyCheck.Check();
-
             Console.WriteLine("v-- Pick --v");
             Console.WriteLine("");
             Console.WriteLine("1 Add a author");
@@ -54,7 +51,7 @@ namespace OOPBibliotek
             }
             Console.WriteLine();
 
-            string sqlQuery = $"INSERT INTO Authors (Authornames) VALUES ('{book.Author}')";
+            string sqlQuery = $"INSERT INTO Authors (Authorname) VALUES ('{book.Author}')";
             using (SqlCommand command = new SqlCommand(sqlQuery, con))
             {
                 int rowsAffected = command.ExecuteNonQuery();
@@ -85,8 +82,8 @@ namespace OOPBibliotek
                         {
                             Book book = new Book
                             {
-                                Id = Convert.ToInt32(reader["AuthorsID"]),
-                                Author = reader["Authornames"].ToString(),
+                                Id = Convert.ToInt32(reader["ID"]),
+                                Author = reader["Authorname"].ToString(),
                             };
                             Authors.Add(book);
                         }
@@ -97,7 +94,7 @@ namespace OOPBibliotek
 
             foreach (Book book in Authors)
             {
-                Console.WriteLine($"Author: {book.Author}");
+                Console.WriteLine($"Author: {book.Author}, Author's ID: {book.Id}");
             }
 
             Console.WriteLine();
@@ -110,7 +107,7 @@ namespace OOPBibliotek
                 Authorpick();
             }
             con2.Open();
-            SqlCommand cmd = new SqlCommand($"DELETE FROM Authors WHERE Authornames='{Deletename}'", con2);
+            SqlCommand cmd = new SqlCommand($"DELETE FROM Authors WHERE Authorname='{Deletename}'", con2);
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Success");

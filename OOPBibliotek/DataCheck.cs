@@ -17,7 +17,7 @@ namespace OOPBibliotek
                 {
                     conn.Open();
                     Console.WriteLine("SQL Connection established");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     Console.Clear();
                     return;
                 }
@@ -25,7 +25,7 @@ namespace OOPBibliotek
             catch (SqlException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 Console.Clear();
                 nyMenu.Pickmenu();
             }

@@ -6,9 +6,6 @@ namespace OOPBibliotek
     {
         public void PickLib()
         {
-            DataCheck nyCheck = new DataCheck();
-            nyCheck.Check();
-
             Console.WriteLine("v-- Pick --v");
             Console.WriteLine("");
             Console.WriteLine("1 Borrow a book");
@@ -55,10 +52,11 @@ namespace OOPBibliotek
                         {
                             Book book = new Book
                             {
-                                Id = Convert.ToInt32(reader["BooksID"]),
+                                Id = Convert.ToInt32(reader["ID"]),
                                 Title = reader["Bookname"].ToString(),
-                                Author = reader["Authorname"].ToString(),
+                                AuthorId = Convert.ToInt32(reader["AuthorID"]),
                                 Borrow = reader["Borrowed"].ToString(),
+                                Borrowname = reader["Borrowname"].ToString()
                             };
                             books.Add(book);
                         }
@@ -69,11 +67,12 @@ namespace OOPBibliotek
 
             foreach (Book book in books)
             {
-                Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Borrowed: {book.Borrow}");
+                Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Borrowed: {book.Borrow}, Borrower Name: {book.Borrowname}");
             }
 
             Console.WriteLine();
             Console.Write("Pick what book you want to borrow or write B to go back: ");
+            Console.WriteLine();
             Book book1 = new Book();
             book1.Title = Console.ReadLine();
             if (book1.Title == "B" || book1.Title == "b")
@@ -81,9 +80,20 @@ namespace OOPBibliotek
                 Console.Clear();
                 PickLib();
             }
+
+
+            Console.WriteLine();
+            Console.Write("Write your name: ");
+            Console.WriteLine();
+            string BorrowName = Console.ReadLine();
+            bool LengthBool = BorrowName.Length >= 1;
+            if (LengthBool == false || BorrowName == null) Error();
+
+
             SqlConnection con2 = new SqlConnection(cstring);
             con2.Open();
-            string sqlQuery = $"UPDATE Books SET Borrowed = 'Yes' WHERE Bookname = '{book1.Title}'";
+            string sqlQuery = $"UPDATE Books SET Borrowed = 'Yes', Borrowname = '{BorrowName}' WHERE Bookname = '{book1.Title}'";
+
             using (SqlCommand command = new SqlCommand(sqlQuery, con2))
             {
                 int rowsAffected = command.ExecuteNonQuery();
@@ -117,9 +127,9 @@ namespace OOPBibliotek
                         {
                             Book book = new Book
                             {
-                                Id = Convert.ToInt32(reader["BooksID"]),
+                                Id = Convert.ToInt32(reader["ID"]),
                                 Title = reader["Bookname"].ToString(),
-                                Author = reader["Authorname"].ToString(),
+                                AuthorId = Convert.ToInt32(reader["AuthorID"]),
                                 Borrow = reader["Borrowed"].ToString(),
                             };
                             books.Add(book);
@@ -131,7 +141,7 @@ namespace OOPBibliotek
 
             foreach (Book book in books)
             {
-                Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Borrowed: {book.Borrow}");
+                Console.WriteLine($"Title: {book.Title}, Author ID: {book.AuthorId}, Borrowed: {book.Borrow}");
             }
 
             Console.WriteLine();
@@ -147,7 +157,7 @@ namespace OOPBibliotek
 
             SqlConnection con2 = new SqlConnection(cstring);
             con2.Open();
-            string sqlQuery = $"UPDATE Books SET Borrowed = 'No' WHERE Bookname = '{book1.Title}'";
+            string sqlQuery = $"UPDATE Books SET Borrowed = 'No', Borrowname = 'None' WHERE Bookname = '{book1.Title}'";
             using (SqlCommand command = new SqlCommand(sqlQuery, con2))
             {
                 int rowsAffected = command.ExecuteNonQuery();
