@@ -67,7 +67,7 @@ namespace OOPBibliotek
 
             foreach (Book book in books)
             {
-                Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Borrowed: {book.Borrow}, Borrower Name: {book.Borrowname}");
+                Console.WriteLine($"Title: {book.Title}, Author ID: {book.AuthorId}, Borrowed: {book.Borrow}, Borrower Name: {book.Borrowname}");
             }
 
             Console.WriteLine();
