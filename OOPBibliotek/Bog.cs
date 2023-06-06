@@ -14,8 +14,8 @@ namespace OOPBibliotek
     {
         public void PickBook()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = Passw0rd; Database = Bibliotek;";
-            SqlConnection con = new SqlConnection(cstring);
+            DataCheck nyCheck = new DataCheck();
+            nyCheck.Check();
 
             Console.WriteLine("v-- Pick --v");
             Console.WriteLine("");
