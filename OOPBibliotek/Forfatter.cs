@@ -106,15 +106,63 @@ namespace OOPBibliotek
                 Console.Clear();
                 Authorpick();
             }
-            con2.Open();
-            SqlCommand cmd = new SqlCommand($"DELETE FROM Authors WHERE Authorname='{Deletename}'", con2);
-            cmd.ExecuteNonQuery();
+            else
+            {
+                con2.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT COUNT(*) FROM Books WHERE AuthorID IN (SELECT ID FROM Authors WHERE Authorname='{Deletename}')", con2);
+                int relatedBooksCount = (int)cmd.ExecuteScalar();
+                if (relatedBooksCount > 0)
+                {
+                    List<Book> books1 = new List<Book>();
 
-            Console.WriteLine("Success");
-            Thread.Sleep(2000);
-            Console.Clear();
-            con2.Close();
-            Authorpick();
+                    using (SqlConnection con = new SqlConnection(cstring))
+                    {
+                        con.Open();
+
+                        string sqlQuery = $"SELECT * FROM Books WHERE AuthorID IN (SELECT ID FROM Authors WHERE Authorname='{Deletename}')";
+
+                        using (SqlCommand command = new SqlCommand(sqlQuery, con))
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    Book book = new Book
+                                    {
+                                        Id = Convert.ToInt32(reader["ID"]),
+                                        Title = reader["Bookname"].ToString(),
+                                        AuthorId = Convert.ToInt32(reader["AuthorID"]),
+                                    };
+                                    books1.Add(book);
+                                }
+                            }
+                        }
+                        con.Close();
+                    }
+                    Console.Clear();
+                    Console.WriteLine("Error, the author is related to these books and cannot be deleted");
+                    Console.WriteLine();
+                    foreach (Book book in books1)
+                    {
+                        Console.WriteLine($"Book ID: {book.Id}, Title: {book.Title}, Author: {book.AuthorId}");
+                    }
+                    
+                    Console.ReadKey();
+                    Console.Clear();
+                    Authorpick();
+                }
+                else
+                {
+                    cmd = new SqlCommand($"DELETE FROM Authors WHERE Authorname='{Deletename}'", con2);
+                    cmd.ExecuteNonQuery();
+
+                    Console.WriteLine("Success");
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    con2.Close();
+                    Authorpick();
+                }
+            }
         }
         public void Error()
         {
