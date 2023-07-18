@@ -12,8 +12,9 @@ namespace OOPBibliotek
         public string Borrow { get; set; }
         public string Borrowname { get; set; }
     }
-    internal class Bog
+    public class Bog
     {
+        private string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
         public void PickBook()
         {
             Console.WriteLine("v-- Pick --v");
@@ -40,11 +41,12 @@ namespace OOPBibliotek
                 default:
                     Error();
                     break;
+
+                    
             }
         }
         public void AddBook()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
             SqlConnection con = new SqlConnection(cstring);
 
             Book book = new Book();
@@ -110,8 +112,6 @@ namespace OOPBibliotek
         }
         public void DeleteBook()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
-
             List<Book> books = new List<Book>();
 
             using (SqlConnection con = new SqlConnection(cstring))
@@ -166,7 +166,6 @@ namespace OOPBibliotek
         }
         public void Error()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
             SqlConnection con = new SqlConnection(cstring);
             Console.Clear();
             con.Close();

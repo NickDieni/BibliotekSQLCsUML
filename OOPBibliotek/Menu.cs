@@ -2,7 +2,6 @@
 {
     internal class Menu
     {
-
         public void Pickmenu()
         {
             Bibliotek nyBib = new Bibliotek();
@@ -25,14 +24,14 @@
                     break;
                 case 2:
                     Console.Clear();
-                    nyFor.Authorpick();
+                    nyFor.AuthorPick();
                     break;
                 case 3:
                     Console.Clear();
                     nyBib.PickLib();
                     break;
                 default:
-                    Console.WriteLine("Fejl prøv igen");
+                    Console.WriteLine("Error try again");
                     Console.ReadKey();
                     Pickmenu();
                     break;

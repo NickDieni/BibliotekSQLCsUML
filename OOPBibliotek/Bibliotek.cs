@@ -2,8 +2,9 @@
 
 namespace OOPBibliotek
 {
-    internal class Bibliotek
+    public class Bibliotek
     {
+        private string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
         public void PickLib()
         {
             Console.WriteLine("v-- Pick --v");
@@ -34,8 +35,6 @@ namespace OOPBibliotek
         }
         public void BorrowBook()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
-
             List<Book> books = new List<Book>();
 
             using (SqlConnection con = new SqlConnection(cstring))
@@ -109,8 +108,6 @@ namespace OOPBibliotek
         }
         public void ReturnBook()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
-
             List<Book> books = new List<Book>();
 
             using (SqlConnection con = new SqlConnection(cstring))
@@ -149,7 +146,7 @@ namespace OOPBibliotek
             Book book1 = new Book();
             book1.Title = Console.ReadLine().ToLower();
 
-            if (book1.Title == "B" || book1.Title == "b")
+            if (book1.Title == "b")
             {
                 Console.Clear();
                 PickLib();
@@ -182,5 +179,4 @@ namespace OOPBibliotek
             PickLib();
         }
     }
-
 }

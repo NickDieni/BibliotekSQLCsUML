@@ -3,9 +3,10 @@
 
 namespace OOPBibliotek
 {
-    internal class Forfatter
+    public class Forfatter
     {
-        public void Authorpick()
+        private string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
+        public void AuthorPick()
         {
             Console.WriteLine("v-- Pick --v");
             Console.WriteLine("");
@@ -35,7 +36,6 @@ namespace OOPBibliotek
         }
         public void AddAuthor()
         {
-            string cstring = "Server = 192.168.23.112,1433; Uid = Nick ;Pwd = passw0rd; Database = Bibliotek;";
             SqlConnection con = new SqlConnection(cstring);
             con.Open();
             Book book = new Book();
@@ -47,7 +47,7 @@ namespace OOPBibliotek
             if (book.Author == "B" || book.Author == "b")
             {
                 Console.Clear();
-                Authorpick();
+                AuthorPick();
             }
             Console.WriteLine();
 
@@ -60,7 +60,7 @@ namespace OOPBibliotek
             Thread.Sleep(2000);
             Console.Clear();
             con.Close();
-            Authorpick();
+            AuthorPick();
         }
         public void DeleteAuthor()
         {
@@ -104,7 +104,7 @@ namespace OOPBibliotek
             if (Deletename == "B" || Deletename == "b")
             {
                 Console.Clear();
-                Authorpick();
+                AuthorPick();
             }
             else
             {
@@ -149,7 +149,7 @@ namespace OOPBibliotek
                     
                     Console.ReadKey();
                     Console.Clear();
-                    Authorpick();
+                    AuthorPick();
                 }
                 else
                 {
@@ -160,7 +160,7 @@ namespace OOPBibliotek
                     Thread.Sleep(2000);
                     Console.Clear();
                     con2.Close();
-                    Authorpick();
+                    AuthorPick();
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace OOPBibliotek
             con.Close();
             Console.WriteLine("Error try again");
             Thread.Sleep(2000);
-            Authorpick();
+            AuthorPick();
         }
     }
 }
